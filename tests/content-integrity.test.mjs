@@ -58,7 +58,7 @@ test("the public product does not expose the Google Sheet or private collaborato
 test("research candidates remain explicitly distinct from registered projects", () => {
   assert.match(data, /این ردیف پروژه واقعی ثبت‌شده نیست؛ فقط نامزد طراحی پایلوت است/);
   assert.match(data, /نامزد تحقیق/);
-  assert.match(portal, /نه پروژه ثبت‌شده یا تأییدشده/);
+  assert.match(portal, /به معنای تأیید پروژه، نتیجه حفاظتی یا صدور اعتبار نیستند/);
 });
 
 test("document metadata is Persian and describes the initiative accurately", () => {
