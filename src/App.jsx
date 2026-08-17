@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   ArrowLeft,
-  ArrowUpLeft,
   Bird,
   CheckCircle,
   ClipboardText,
@@ -15,9 +14,7 @@ import {
 } from "@phosphor-icons/react";
 import "@fontsource-variable/estedad";
 import "@fontsource-variable/vazirmatn";
-
-const SHEET_URL =
-  "https://docs.google.com/spreadsheets/d/14xIgT9zpfzvkhxlpKEV1wT6JuxhxuUxMIbaQR6Bp3d0/edit";
+import { DataPortal } from "./DataPortal.jsx";
 
 const asset = (name) => `${import.meta.env.BASE_URL}assets/${name}`;
 
@@ -25,7 +22,7 @@ function Brand({ compact = false }) {
   return (
     <a
       className={`brand ${compact ? "brand--compact" : ""}`}
-      href="#top"
+      href="/#top"
       aria-label="اعتبار تنوع زیستی ایران"
     >
       <img src={asset("brand-mark.png")} alt="نشان اعتبار تنوع زیستی ایران" />
@@ -37,9 +34,8 @@ function Brand({ compact = false }) {
   );
 }
 
-export function App() {
+function PublicHome() {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const closeMenu = () => setMenuOpen(false);
 
   return (
@@ -51,7 +47,7 @@ export function App() {
           <a href="#roadmap">نقشه راه</a>
           <a href="#data">داده پایه</a>
           <a href="#integrity">اصول یکپارچگی</a>
-          <a href="#knowledge">دانش و منابع</a>
+          <a href="/data">پرتال داده</a>
         </nav>
         <div className="header-actions">
           <a className="login" href="#status">
@@ -72,7 +68,7 @@ export function App() {
             <a href="#roadmap" onClick={closeMenu}>نقشه راه</a>
             <a href="#data" onClick={closeMenu}>داده پایه</a>
             <a href="#integrity" onClick={closeMenu}>اصول یکپارچگی</a>
-            <a href="#knowledge" onClick={closeMenu}>دانش و منابع</a>
+            <a href="/data" onClick={closeMenu}>پرتال داده</a>
           </nav>
         )}
       </header>
@@ -97,8 +93,8 @@ export function App() {
             <a className="button button--primary" href="#roadmap">
               مشاهده نقشه راه <ArrowLeft />
             </a>
-            <a className="button button--outline" href="#knowledge">
-              داده و منابع <Database />
+            <a className="button button--outline" href="/data">
+              جست‌وجوی داده‌ها <Database />
             </a>
           </div>
           <div className="trust-line">
@@ -133,8 +129,8 @@ export function App() {
           <strong>Market</strong>
           <small>Not active</small>
         </div>
-        <a className="data-link" href={SHEET_URL} target="_blank" rel="noreferrer">
-          <Database /> پایگاه داده تحقیقاتی v0.3 <ArrowUpLeft />
+        <a className="data-link" href="/data">
+          <Database /> داده‌های عمومی پژوهشی <ArrowLeft />
         </a>
       </section>
 
@@ -203,7 +199,7 @@ export function App() {
           />
           <div className="project-body">
             <span className="verified">
-              <Database weight="fill" /> پایگاه داده پایه v0.3
+              <Database weight="fill" /> snapshot عمومی داده پایه v0.3
             </span>
             <h3>زیرساخت داده قبل از زیرساخت بازار</h3>
             <p className="location">
@@ -215,7 +211,7 @@ export function App() {
                 <strong>۲۷</strong>
               </span>
               <span>
-                <small>رکورد با جزئیات تأییدشده</small>
+                <small>رکورد تالابی با جزئیات تأییدشده</small>
                 <strong>۱۷</strong>
               </span>
               <span>
@@ -223,13 +219,8 @@ export function App() {
                 <strong>۱۴۱</strong>
               </span>
             </div>
-            <a
-              className="text-button"
-              href={SHEET_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              مشاهده داده و منابع <ArrowUpLeft />
+            <a className="text-button" href="/data">
+              ورود به پرتال داده <ArrowLeft />
             </a>
           </div>
         </article>
@@ -307,13 +298,8 @@ export function App() {
           <span className="eyebrow">دانش و منابع</span>
           <h2>روش روشن، داده مستند و ادعای محدود به شواهد.</h2>
         </div>
-        <a
-          className="button button--light"
-          href={SHEET_URL}
-          target="_blank"
-          rel="noreferrer"
-        >
-          مشاهده پایگاه تحقیقاتی <ArrowUpLeft />
+        <a className="button button--light" href="/data/glossary">
+          مرور واژه‌نامه و داده <ArrowLeft />
         </a>
       </section>
 
@@ -329,4 +315,11 @@ export function App() {
       </footer>
     </main>
   );
+}
+
+export function App() {
+  if (window.location.pathname === "/data" || window.location.pathname.startsWith("/data/")) {
+    return <DataPortal />;
+  }
+  return <PublicHome />;
 }

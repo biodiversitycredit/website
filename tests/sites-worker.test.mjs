@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 import worker from "../worker/index.js";
 
@@ -65,4 +65,23 @@ test("emits the files required by Sites packaging", async () => {
   await access(new URL("../dist/client/index.html", import.meta.url));
   await access(new URL("../dist/server/index.js", import.meta.url));
   await access(new URL("../dist/.openai/hosting.json", import.meta.url));
+});
+
+test("emits first-party data routes and search-engine discovery files", async () => {
+  for (const relative of [
+    "../dist/client/data/index.html",
+    "../dist/client/data/sources/index.html",
+    "../dist/client/data/sources/SRC-001/index.html",
+    "../dist/client/data/species/SP-IR-0001/index.html",
+    "../dist/client/data/wetlands/RS-IR-0036/index.html",
+    "../dist/client/data/glossary/baseline/index.html",
+    "../dist/client/sitemap.xml",
+    "../dist/client/robots.txt",
+  ]) {
+    await access(new URL(relative, import.meta.url));
+  }
+
+  const sitemap = await readFile(new URL("../dist/client/sitemap.xml", import.meta.url), "utf8");
+  assert.match(sitemap, /https:\/\/biodiversitycredit\.ir\/data\/sources\/SRC-001/);
+  assert.match(sitemap, /https:\/\/biodiversitycredit\.ir\/data\/glossary\/baseline/);
 });
