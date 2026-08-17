@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   ArrowLeft,
   ArrowUpLeft,
@@ -6,11 +6,8 @@ import {
   CheckCircle,
   ClipboardText,
   Database,
-  Globe,
   Leaf,
-  MapPin,
   List as Menu,
-  Plus,
   SealCheck,
   ShieldCheck,
   Users,
@@ -24,32 +21,17 @@ const SHEET_URL =
 
 const asset = (name) => `${import.meta.env.BASE_URL}assets/${name}`;
 
-const projects = [
-  {
-    title: "احیای تالاب میانکاله",
-    place: "مازندران، بهشهر",
-    metric: "۱۶۸ گونه هدف",
-    credit: "۱۲٬۴۵۰ واحد اعتبار",
-    progress: "۲۶٪ پیشرفت",
-    image: asset("miankaleh-wetland.png"),
-  },
-  {
-    title: "حفاظت از زیستگاه یوز آسیایی",
-    place: "سمنان، توران",
-    metric: "۸ کریدور زیستی",
-    credit: "۷٬۸۰۰ واحد اعتبار",
-    progress: "۴۱٪ پیشرفت",
-    image: asset("birds-arch.png"),
-  },
-];
-
 function Brand({ compact = false }) {
   return (
-    <a className={`brand ${compact ? "brand--compact" : ""}`} href="#top" aria-label="اعتبار تنوع زیستی ایران">
-      <img src={asset("brand-mark.png")} alt="نشان مجمع پرندگان" />
+    <a
+      className={`brand ${compact ? "brand--compact" : ""}`}
+      href="#top"
+      aria-label="اعتبار تنوع زیستی ایران"
+    >
+      <img src={asset("brand-mark.png")} alt="نشان اعتبار تنوع زیستی ایران" />
       <span>
         <strong>اعتبار تنوع زیستی ایران</strong>
-        {!compact && <small>Biodiversity Credit Registry</small>}
+        {!compact && <small>Biodiversity Credit Initiative</small>}
       </span>
     </a>
   );
@@ -57,154 +39,294 @@ function Brand({ compact = false }) {
 
 export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [activeProject, setActiveProject] = useState(0);
 
-  useEffect(() => {
-    document.body.style.overflow = formOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
-  }, [formOpen]);
-
-  function submitProject(event) {
-    event.preventDefault();
-    setSubmitted(true);
-  }
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <main id="top" dir="rtl">
       <header className="site-header">
         <Brand />
         <nav className="desktop-nav" aria-label="راهبری اصلی">
-          <a href="#projects">پروژه‌ها</a>
-          <a href="#process">فرایند اعتبار</a>
-          <a href="#standards">استانداردها</a>
+          <a href="#status">وضعیت فعلی</a>
+          <a href="#roadmap">نقشه راه</a>
+          <a href="#data">داده پایه</a>
+          <a href="#integrity">اصول یکپارچگی</a>
           <a href="#knowledge">دانش و منابع</a>
-          <a href="#about">درباره ما</a>
         </nav>
         <div className="header-actions">
-          <button className="language" type="button"><Globe /> EN</button>
-          <button className="login" type="button">ورود</button>
-          <button className="menu-button" type="button" aria-label="باز کردن منو" onClick={() => setMenuOpen(!menuOpen)}>
+          <a className="login" href="#status">
+            مرحله پژوهش
+          </a>
+          <button
+            className="menu-button"
+            type="button"
+            aria-label="باز کردن منو"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
         {menuOpen && (
           <nav className="mobile-nav" aria-label="راهبری موبایل">
-            <a href="#projects" onClick={() => setMenuOpen(false)}>پروژه‌ها</a>
-            <a href="#process" onClick={() => setMenuOpen(false)}>فرایند اعتبار</a>
-            <a href="#standards" onClick={() => setMenuOpen(false)}>استانداردها</a>
-            <a href="#knowledge" onClick={() => setMenuOpen(false)}>دانش و منابع</a>
+            <a href="#status" onClick={closeMenu}>وضعیت فعلی</a>
+            <a href="#roadmap" onClick={closeMenu}>نقشه راه</a>
+            <a href="#data" onClick={closeMenu}>داده پایه</a>
+            <a href="#integrity" onClick={closeMenu}>اصول یکپارچگی</a>
+            <a href="#knowledge" onClick={closeMenu}>دانش و منابع</a>
           </nav>
         )}
       </header>
 
       <section className="hero">
         <div className="hero-copy">
-          <span className="eyebrow"><Bird weight="duotone" /> سامانه ملی ثبت و اعتبارسنجی پروژه‌های تنوع زیستی</span>
-          <h1>هر گونه، بخشی از<br /><em>یک آینده مشترک</em></h1>
-          <p>پل ارتباطی حفاظت مؤثر با سرمایه‌گذاری مسئولانه؛ از ثبت پروژه و راستی‌آزمایی مستقل تا صدور اعتبار شفاف و قابل رهگیری.</p>
+          <span className="eyebrow">
+            <Bird weight="duotone" />
+            ابتکار مستقل پژوهشی و داده‌محور
+          </span>
+          <h1>
+            از مفهوم تنوع زیستی تا
+            <br />
+            <em>شواهد قابل اتکا</em>
+          </h1>
+          <p>
+            «اعتبار تنوع زیستی ایران» در حال ساخت بنیان دانشی، روش‌شناسی،
+            داده و قواعد شفافیتی است که بتواند در آینده از پایلوت‌های
+            سنجش‌پذیر و تأمین مالی مسئولانه حفاظت پشتیبانی کند.
+          </p>
           <div className="hero-actions">
-            <a className="button button--primary" href="#projects">کشف پروژه‌ها <ArrowLeft /></a>
-            <button className="button button--outline" type="button" onClick={() => { setFormOpen(true); setSubmitted(false); }}>
-              ثبت پروژه جدید <Plus />
-            </button>
+            <a className="button button--primary" href="#roadmap">
+              مشاهده نقشه راه <ArrowLeft />
+            </a>
+            <a className="button button--outline" href="#knowledge">
+              داده و منابع <Database />
+            </a>
           </div>
-          <div className="trust-line"><SealCheck weight="fill" /><span>داده‌های مستند، ارزیابی مستقل و گزارش‌پذیری عمومی</span></div>
+          <div className="trust-line">
+            <SealCheck weight="fill" />
+            <span>
+              در این مرحله هیچ اعتبار تنوع زیستی صادر یا معامله نمی‌شود.
+            </span>
+          </div>
         </div>
-        <div className="hero-art" aria-label="مجمع پرندگان در قاب معماری ایرانی">
-          <img src={asset("birds-arch.png")} alt="نقش عمودی پرندگان بومی ایران در قاب آجری و فیروزه‌ای" />
+        <div className="hero-art" aria-label="تصویرسازی پرندگان بومی ایران">
+          <img
+            src={asset("birds-arch.png")}
+            alt="تصویرسازی پرندگان بومی ایران در قاب معماری ایرانی"
+          />
         </div>
       </section>
 
-      <section className="standards-strip" id="standards" aria-label="استانداردهای مرجع">
-        <div className="standards-copy"><span>همسو با معتبرترین چارچوب‌های جهانی</span><strong>حفاظت بومی، سنجش‌پذیری جهانی</strong></div>
-        <div className="standard"><strong>BBOP</strong><small>Aligned</small></div>
-        <div className="standard"><strong>IUCN</strong><small>Guidance</small></div>
-        <div className="standard"><strong>ISO</strong><small>14064-2</small></div>
-        <a className="data-link" href={SHEET_URL} target="_blank" rel="noreferrer"><Database /> منبع داده نسخه ۰.۳ <ArrowUpLeft /></a>
+      <section className="standards-strip" id="status" aria-label="وضعیت فعلی ابتکار">
+        <div className="standards-copy">
+          <span>وضعیت انتشار عمومی</span>
+          <strong>تحقیق و توسعه چارچوب</strong>
+        </div>
+        <div className="standard">
+          <strong>Methodology</strong>
+          <small>Draft</small>
+        </div>
+        <div className="standard">
+          <strong>Credits</strong>
+          <small>Not issued</small>
+        </div>
+        <div className="standard">
+          <strong>Market</strong>
+          <small>Not active</small>
+        </div>
+        <a className="data-link" href={SHEET_URL} target="_blank" rel="noreferrer">
+          <Database /> پایگاه داده تحقیقاتی v0.3 <ArrowUpLeft />
+        </a>
       </section>
 
-      <section className="projects" id="projects">
+      <section className="process" id="roadmap">
         <div className="section-heading">
-          <div><span className="eyebrow">پروژه‌های ثبت‌شده</span><h2>حفاظت را روی نقشه ببینید</h2></div>
-          <div className="project-tabs" role="tablist" aria-label="انتخاب پروژه">
-            {projects.map((project, index) => (
-              <button key={project.title} type="button" role="tab" aria-selected={activeProject === index} onClick={() => setActiveProject(index)}>{index + 1}</button>
-            ))}
+          <div>
+            <span className="eyebrow">مسیر شکل‌گیری</span>
+            <h2>اول چارچوب، بعد پایلوت؛ اعتبار آخر مسیر است.</h2>
           </div>
-        </div>
-        <article className="featured-project">
-          <img src={projects[activeProject].image} alt={projects[activeProject].title} />
-          <div className="project-body">
-            <span className="verified"><CheckCircle weight="fill" /> ثبت و ارزیابی شده</span>
-            <h3>{projects[activeProject].title}</h3>
-            <p className="location"><MapPin weight="fill" /> {projects[activeProject].place}</p>
-            <div className="project-metrics">
-              <span><small>اثر حفاظتی</small><strong>{projects[activeProject].metric}</strong></span>
-              <span><small>اعتبار قابل صدور</small><strong>{projects[activeProject].credit}</strong></span>
-              <span><small>وضعیت</small><strong>{projects[activeProject].progress}</strong></span>
-            </div>
-            <button type="button" className="text-button">مشاهده جزئیات پروژه <ArrowLeft /></button>
-          </div>
-        </article>
-        <div className="registry-stats" aria-label="آمار سامانه">
-          <span><small>پروژه ثبت‌شده</small><strong>۲۸</strong></span>
-          <span><small>اعتبار صادرشده</small><strong>۱۵٬۷۸۰</strong></span>
-          <span><small>گونه تحت پوشش</small><strong>۳۶۴</strong></span>
-          <span><small>استان فعال</small><strong>۱۲</strong></span>
-        </div>
-      </section>
-
-      <section className="process" id="process">
-        <div className="section-heading">
-          <div><span className="eyebrow">از داده تا اعتماد</span><h2>مسیر صدور اعتبار</h2></div>
-          <p>هر ادعا باید به داده میدانی، روش سنجش و تأیید مستقل متصل باشد.</p>
+          <p dir="ltr">
+            Initiative → Methodology → Protocol → Pilot → Evidence → Credit
+          </p>
         </div>
         <div className="process-grid">
-          <article><ClipboardText /><span>۰۱</span><h3>ثبت و ارزیابی</h3><p>تعریف محدوده، گونه‌های هدف و خط مبنای زیست‌بوم.</p></article>
-          <article><ShieldCheck /><span>۰۲</span><h3>راستی‌آزمایی</h3><p>بازبینی داده و شواهد توسط ارزیاب مستقل.</p></article>
-          <article><Leaf /><span>۰۳</span><h3>صدور اعتبار</h3><p>صدور واحد قابل رهگیری بر پایه نتایج واقعی.</p></article>
-          <article><Users /><span>۰۴</span><h3>بازار و شفافیت</h3><p>افشای عمومی، گزارش اثر و جلوگیری از دوباره‌شماری.</p></article>
+          <article>
+            <ClipboardText />
+            <span>۰۱</span>
+            <h3>ابتکار و روش‌شناسی</h3>
+            <p>
+              تعریف دقیق مفهوم، دامنه، واژگان، معیارها و حداقل الزامات علمی.
+            </p>
+          </article>
+          <article>
+            <ShieldCheck />
+            <span>۰۲</span>
+            <h3>پروتکل و قواعد</h3>
+            <p>
+              طراحی قواعد شواهد، تعارض منافع، شفافیت، ادعاها و حفاظت از داده حساس.
+            </p>
+          </article>
+          <article>
+            <Leaf />
+            <span>۰۳</span>
+            <h3>پایلوت و پایش</h3>
+            <p>
+              انتخاب پایلوت محدود، ساخت baseline و برنامه پایش متناسب با زیست‌بوم.
+            </p>
+          </article>
+          <article>
+            <CheckCircle />
+            <span>۰۴</span>
+            <h3>شواهد تا اعتبار</h3>
+            <p>
+              فقط پس از داده، ارزیابی و شواهد کافی می‌توان درباره اعتبار قابل اتکا صحبت کرد.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="projects" id="data">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">داده پایه تحقیقاتی</span>
+            <h2>داده را از ادعا جدا نگه می‌داریم.</h2>
+          </div>
+          <p>
+            اعداد این بخش آمار پایگاه داده و منابع مرجع هستند؛ نه تعداد پروژه
+            تأییدشده، نه نتیجه حفاظتی و نه اعتبار صادرشده.
+          </p>
+        </div>
+
+        <article className="featured-project">
+          <img
+            src={asset("miankaleh-wetland.png")}
+            alt="نمایی از زیست‌بوم تالابی ایران"
+          />
+          <div className="project-body">
+            <span className="verified">
+              <Database weight="fill" /> پایگاه داده پایه v0.3
+            </span>
+            <h3>زیرساخت داده قبل از زیرساخت بازار</h3>
+            <p className="location">
+              منابع، مناطق، گونه‌ها، شاخص‌ها، شواهد و قواعد کیفیت داده
+            </p>
+            <div className="project-metrics">
+              <span>
+                <small>سایت‌های رامسر در پروفایل کشور</small>
+                <strong>۲۷</strong>
+              </span>
+              <span>
+                <small>رکورد با جزئیات تأییدشده</small>
+                <strong>۱۷</strong>
+              </span>
+              <span>
+                <small>مناطق در پروفایل Protected Planet</small>
+                <strong>۱۴۱</strong>
+              </span>
+            </div>
+            <a
+              className="text-button"
+              href={SHEET_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              مشاهده داده و منابع <ArrowUpLeft />
+            </a>
+          </div>
+        </article>
+
+        <div className="registry-stats" aria-label="آمار داده پایه">
+          <span>
+            <small>گونه در Bird Checklist ایران</small>
+            <strong>۵۸۱</strong>
+          </span>
+          <span>
+            <small>دیتاست گونه‌ای اولویت‌دار</small>
+            <strong>۵</strong>
+          </span>
+          <span>
+            <small>قاعده کیفیت داده</small>
+            <strong>۸</strong>
+          </span>
+          <span>
+            <small>نامزد تحقیق برای پایلوت</small>
+            <strong>۲</strong>
+          </span>
+        </div>
+      </section>
+
+      <section className="process" id="integrity">
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">یکپارچگی و شفافیت</span>
+            <h2>هر ادعا باید قابل ردیابی و قابل بررسی باشد.</h2>
+          </div>
+          <p>
+            اعتبار علمی پروژه از تفکیک دقیق داده، مشاهده، ادعا، ارزیابی و
+            تصمیم نهایی شروع می‌شود.
+          </p>
+        </div>
+        <div className="process-grid">
+          <article>
+            <Database />
+            <span>۰۱</span>
+            <h3>منبع‌محوری</h3>
+            <p>
+              هر داده عمومی باید منبع، نسخه، تاریخ دسترسی و وضعیت مجوز مشخص داشته باشد.
+            </p>
+          </article>
+          <article>
+            <ShieldCheck />
+            <span>۰۲</span>
+            <h3>تفکیک وضعیت‌ها</h3>
+            <p>
+              ثبت، validation، verification، issuance و retirement یک چیز نیستند.
+            </p>
+          </article>
+          <article>
+            <ClipboardText />
+            <span>۰۳</span>
+            <h3>اعلام عدم قطعیت</h3>
+            <p>
+              محدودیت روش، کیفیت داده و سطح اطمینان باید همراه نتیجه منتشر شود.
+            </p>
+          </article>
+          <article>
+            <Users />
+            <span>۰۴</span>
+            <h3>حفاظت از داده حساس</h3>
+            <p>
+              مختصات و اطلاعاتی که می‌تواند برای گونه یا زیستگاه خطر ایجاد کند عمومی نمی‌شود.
+            </p>
+          </article>
         </div>
       </section>
 
       <section className="knowledge" id="knowledge">
         <Bird weight="duotone" />
-        <div><span className="eyebrow">دانش و منابع</span><h2>اعتبار معتبر، از روش روشن آغاز می‌شود.</h2></div>
-        <a className="button button--light" href={SHEET_URL} target="_blank" rel="noreferrer">مشاهده روش‌شناسی <ArrowUpLeft /></a>
+        <div>
+          <span className="eyebrow">دانش و منابع</span>
+          <h2>روش روشن، داده مستند و ادعای محدود به شواهد.</h2>
+        </div>
+        <a
+          className="button button--light"
+          href={SHEET_URL}
+          target="_blank"
+          rel="noreferrer"
+        >
+          مشاهده پایگاه تحقیقاتی <ArrowUpLeft />
+        </a>
       </section>
 
       <footer id="about">
         <Brand compact />
-        <p>زیرساخت مستقل و شفاف برای پیوند حفاظت از تنوع زیستی ایران با سرمایه‌گذاری مسئولانه.</p>
-        <small>نسخه آزمایشی ۰.۳ · داده‌ها برای نمایش محصول نمونه‌سازی شده‌اند.</small>
+        <p>
+          یک ابتکار پژوهشی برای توسعه دانش، داده، روش‌شناسی و زیرساخت شفاف
+          مرتبط با تنوع زیستی ایران.
+        </p>
+        <small>
+          مرحله تحقیق و توسعه · بدون صدور یا معامله اعتبار · داده پایه v0.3
+        </small>
       </footer>
-
-      {formOpen && (
-        <div className="dialog-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) setFormOpen(false); }}>
-          <section className="dialog" role="dialog" aria-modal="true" aria-labelledby="form-title">
-            <button className="dialog-close" type="button" aria-label="بستن" onClick={() => setFormOpen(false)}><X /></button>
-            {submitted ? (
-              <div className="success-state">
-                <CheckCircle weight="fill" /><h2>درخواست اولیه ثبت شد</h2>
-                <p>خلاصه پروژه برای بررسی مقدماتی دریافت شد. تیم ارزیابی برای تکمیل داده‌ها با شما تماس می‌گیرد.</p>
-                <button className="button button--primary" type="button" onClick={() => setFormOpen(false)}>بازگشت به سامانه</button>
-              </div>
-            ) : (
-              <form onSubmit={submitProject}>
-                <span className="eyebrow">ورود به مسیر اعتبار</span><h2 id="form-title">ثبت اولیه پروژه</h2>
-                <p>در این مرحله فقط اطلاعات پایه را می‌گیریم؛ مستندات فنی در ارزیابی مقدماتی مشخص می‌شوند.</p>
-                <label>نام پروژه<input name="title" required placeholder="مثلاً احیای زیستگاه تالابی" /></label>
-                <label>استان یا محدوده اجرا<input name="region" required placeholder="استان، شهرستان یا منطقه حفاظت‌شده" /></label>
-                <label>نوع اقدام<select name="type" defaultValue=""><option value="" disabled>انتخاب کنید</option><option>احیا و بازسازی</option><option>حفاظت از زیستگاه</option><option>حفاظت از گونه</option><option>مدیریت مشارکتی</option></select></label>
-                <label>ایمیل مسئول پروژه<input name="email" required type="email" placeholder="name@example.com" dir="ltr" /></label>
-                <button className="button button--primary" type="submit">ارسال برای بررسی <ArrowLeft /></button>
-              </form>
-            )}
-          </section>
-        </div>
-      )}
     </main>
   );
 }
