@@ -9,15 +9,33 @@
 - Methodology: Draft
 - Credits: Not issued
 - Market: Not active
-- Public data foundation: research dataset v0.3
+- Public data foundation: research snapshot v0.3
 - مسیر محصول: `Initiative → Methodology → Protocol → Pilot → Evidence → Credit`
 
-داده‌های پایه و منابع تحقیقاتی از Google Sheet نسخه ۰.۳ در رابط لینک شده‌اند. اعداد نمایش‌داده‌شده در سایت فقط آمار داده پایه هستند و نباید به‌عنوان نتیجه حفاظتی، پروژه تأییدشده یا اعتبار صادرشده تفسیر شوند.
+## پرتال داده عمومی
+
+داده‌های قابل انتشار دیگر از رابط عمومی به Google Sheet لینک نمی‌شوند. یک snapshot نسخه‌بندی‌شده در `src/research-data.js` نگهداری می‌شود و از طریق مسیرهای مستقل زیر قابل مشاهده و جست‌وجو است:
+
+- `/data` — جست‌وجوی سراسری و مرور مجموعه‌ها
+- `/data/sources`
+- `/data/datasets`
+- `/data/species`
+- `/data/areas`
+- `/data/wetlands`
+- `/data/indicators`
+- `/data/glossary`
+- `/data/quality`
+- `/data/pilots`
+- `/data/backlog`
+
+هر رکورد URL پایدار مستقل دارد؛ برای نمونه `/data/sources/SRC-001`. در build، نسخه استاتیک مسیرهای مجموعه و رکوردها ساخته می‌شود و `sitemap.xml` و `robots.txt` نیز تولید می‌شوند.
+
+Snapshot عمومی عمداً شامل داده‌های حساس، اسامی افراد، شرکای احتمالی یا داده‌هایی با محدودیت بازنشر نامشخص نیست. منابع اصلی هر رکورد در سطح همان رکورد قابل ردیابی‌اند.
 
 ## توسعه محلی
 
 ```bash
-npm ci
+npm install
 npm run dev
 ```
 
@@ -27,7 +45,7 @@ npm run dev
 npm run check
 ```
 
-این فرمان ابتدا قواعد یکپارچگی محتوای عمومی را بررسی می‌کند، سپس build تولیدی و تست بسته‌بندی Sites را اجرا می‌کند.
+این فرمان ابتدا قواعد یکپارچگی محتوای عمومی را بررسی می‌کند، سپس build تولیدی و تست بسته‌بندی Sites و مسیرهای داده را اجرا می‌کند.
 
 خروجی استاتیک وب‌سایت در `dist/client` ساخته می‌شود.
 
@@ -37,13 +55,16 @@ Workflow انتشار در `.github/workflows/deploy-pages.yml` قرار دار�
 
 ## ساختار اصلی
 
-- `src/App.jsx`: رابط و محتوای عمومی
-- `src/styles.css`: سیستم بصری، RTL و طراحی واکنش‌گرا
+- `src/App.jsx`: رابط و routing سطح اول
+- `src/DataPortal.jsx`: مرور، جست‌وجو، collection و record pages
+- `src/research-data.js`: snapshot عمومی و نسخه‌بندی‌شده داده پژوهشی
+- `src/styles.css`: سیستم بصری اصلی، RTL و طراحی واکنش‌گرا
+- `src/data-portal.css`: سیستم بصری پرتال داده
 - `public/assets`: دارایی‌های بصری
-- `tests/content-integrity.test.mjs`: guardrail ادعاهای عمومی
-- `tests/sites-worker.test.mjs`: تست بسته‌بندی و fallback
+- `tests/content-integrity.test.mjs`: guardrail ادعاها، اسامی و منابع عمومی
+- `tests/sites-worker.test.mjs`: تست بسته‌بندی، مسیرهای مستقل و sitemap
+- `scripts/prepare-sites-build.mjs`: تولید مسیرهای استاتیک داده و فایل‌های discovery
 - `.github/workflows/deploy-pages.yml`: تست و انتشار خودکار
-- `.openai/hosting.json`: تنظیمات انتشار روی Sites
 
 ## قواعد انتشار عمومی
 
@@ -52,3 +73,5 @@ Workflow انتشار در `.github/workflows/deploy-pages.yml` قرار دار�
 - منابع مرجع به‌عنوان endorsement یا «هم‌راستایی تأییدشده» معرفی نشوند.
 - نام اشخاص، همکاران احتمالی یا شرکای در حال مذاکره تا تأیید رسمی در UI یا metadata عمومی قرار نگیرد.
 - داده، observation، claim، validation، verification و issuance از هم تفکیک شوند.
+- داده حساس گونه‌ها و مختصات حساس در snapshot عمومی قرار نگیرد.
+- Google Sheet می‌تواند ابزار پژوهشی داخلی باشد، اما public UI باید داده را به‌صورت first-party، نسخه‌بندی‌شده و قابل ممیزی منتشر کند.
