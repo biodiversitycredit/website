@@ -1,6 +1,18 @@
 # Biodiversity Credit Iran
 
-رابط فارسی و راست‌به‌چپ سامانه «اعتبار تنوع زیستی ایران» با هویت بصری مجمع پرندگان.
+رابط عمومی فارسی و راست‌به‌چپ «اعتبار تنوع زیستی ایران».
+
+این نسخه، پروژه را به‌صورت **یک ابتکار پژوهشی و داده‌محور** معرفی می‌کند. سایت در وضعیت فعلی رجیستری صدور اعتبار، بازار، سامانه تأیید پروژه یا درگاه ثبت عمومی پروژه نیست.
+
+## وضعیت فعلی
+
+- Methodology: Draft
+- Credits: Not issued
+- Market: Not active
+- Public data foundation: research dataset v0.3
+- مسیر محصول: `Initiative → Methodology → Protocol → Pilot → Evidence → Credit`
+
+داده‌های پایه و منابع تحقیقاتی از Google Sheet نسخه ۰.۳ در رابط لینک شده‌اند. اعداد نمایش‌داده‌شده در سایت فقط آمار داده پایه هستند و نباید به‌عنوان نتیجه حفاظتی، پروژه تأییدشده یا اعتبار صادرشده تفسیر شوند.
 
 ## توسعه محلی
 
@@ -12,28 +24,31 @@ npm run dev
 ## بررسی خروجی
 
 ```bash
-npm run build
-npm run test:sites
+npm run check
 ```
+
+این فرمان ابتدا قواعد یکپارچگی محتوای عمومی را بررسی می‌کند، سپس build تولیدی و تست بسته‌بندی Sites را اجرا می‌کند.
 
 خروجی استاتیک وب‌سایت در `dist/client` ساخته می‌شود.
 
 ## انتشار در GitHub Pages
 
-Workflow آماده انتشار در `.github/workflows/deploy-pages.yml` قرار دارد. پس از Push روی شاخه `main`:
-
-1. در تنظیمات مخزن به **Settings → Pages** بروید.
-2. در بخش **Build and deployment**، گزینه **Source** را روی **GitHub Actions** قرار دهید.
-3. اجرای Workflow را در تب **Actions** بررسی کنید.
-
-تنظیم `base: "./"` و مسیرهای نسبی assetها باعث می‌شود سایت هم روی دامنه اصلی و هم روی مسیر `username.github.io/repository` درست بارگذاری شود.
+Workflow انتشار در `.github/workflows/deploy-pages.yml` قرار دارد. Push یا merge روی شاخه `main` ابتدا content-integrity test و build را اجرا می‌کند و فقط در صورت موفقیت، خروجی روی GitHub Pages منتشر می‌شود.
 
 ## ساختار اصلی
 
-- `src/App.jsx`: رابط، داده‌های نمونه و تعاملات اصلی
+- `src/App.jsx`: رابط و محتوای عمومی
 - `src/styles.css`: سیستم بصری، RTL و طراحی واکنش‌گرا
-- `public/assets`: نشان، قاب پرندگان و تصویر پروژه
+- `public/assets`: دارایی‌های بصری
+- `tests/content-integrity.test.mjs`: guardrail ادعاهای عمومی
+- `tests/sites-worker.test.mjs`: تست بسته‌بندی و fallback
+- `.github/workflows/deploy-pages.yml`: تست و انتشار خودکار
 - `.openai/hosting.json`: تنظیمات انتشار روی Sites
-- `.github/workflows/deploy-pages.yml`: انتشار خودکار GitHub Pages
 
-لینک منبع داده نسخه ۰.۳ در رابط روی Google Sheet ارائه‌شده تنظیم شده است.
+## قواعد انتشار عمومی
+
+- هیچ ادعای صدور، معامله یا بازنشستگی اعتبار بدون زیرساخت و شواهد واقعی منتشر نشود.
+- پروژه نامزد یا تحقیقاتی به‌عنوان پروژه تأییدشده نمایش داده نشود.
+- منابع مرجع به‌عنوان endorsement یا «هم‌راستایی تأییدشده» معرفی نشوند.
+- نام اشخاص، همکاران احتمالی یا شرکای در حال مذاکره تا تأیید رسمی در UI یا metadata عمومی قرار نگیرد.
+- داده، observation، claim، validation، verification و issuance از هم تفکیک شوند.
