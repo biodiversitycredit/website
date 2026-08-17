@@ -1,0 +1,52 @@
+name: Publish v0.3.0
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/release-v0.3.0.yml
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Remove temporary probe branch
+        run: git push origin --delete __release_probe_should_not_exist__ || true
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_SHA: 8e1e71728c9119c558b6a66150d0ca7d8a8e428a
+        run: |
+          if gh release view v0.3.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "v0.3.0 already exists"
+            exit 0
+          fi
+
+          gh release create v0.3.0 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$TARGET_SHA" \
+            --title "v0.3.0 — Public Research Data Portal" \
+            --notes-file - <<'EOF'
+          First public release of the Biodiversity Credit Iran research website and its first-party research data portal.
+
+          ## Highlights
+          - First-party searchable research data under `/data`
+          - Stable collection and record URLs for sources, species, protected areas, funding, standards, and glossary entries
+          - Versioned public research snapshot with provenance/source links
+          - Sitemap and robots discovery files
+          - GitHub Pages packaging for direct deep links
+          - Correct root-based Vite asset paths for nested `/data/*` routes
+          - Public-content integrity checks in the build pipeline
+
+          ## Scope
+          This release represents a research-data foundation and public research snapshot. It is not an issuance registry, verified biodiversity-credit ledger, or certification of project outcomes.
+          EOF
